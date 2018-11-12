@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>One</title>
+{#    <link rel="stylesheet" href="{{ url_for('static',filename = 'hello.css') }}">#}
+    <link rel="stylesheet" href="/app/static/hello.css">
+</head>
+<body>
+    <h1>杭州你好</h1>
+    <h1>{{ msg }}</h1>
+    <h1>{{ data }}</h1>
+    <a href="{{ url_for('split.param',id= 'hehe',num=3) }}">跳转</a>
+</body>
+</html>

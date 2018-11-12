@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎</title>
+</head>
+<body>
+    欢迎全栈工程师:{{ uname }},{{ session_name }}
+    <br>
+    <a href="{{ url_for('split.login') }}">登录</a>
+    <a href="{{ url_for('split.logout') }}">退出</a>
+</body>
+</html>

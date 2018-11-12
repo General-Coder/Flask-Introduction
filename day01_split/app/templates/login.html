@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+    <form action="{{ url_for('split.login') }}" method="post">
+        <input type="text" placeholder="用户名" name="name">
+        <br>
+        <input type="text" placeholder="用户名1" name="name1">
+        <br>
+        <input type="submit" value="登录">
+    </form>
+</body>
+</html>

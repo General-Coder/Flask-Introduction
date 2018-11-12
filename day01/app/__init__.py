@@ -1,8 +1,10 @@
 from flask import Flask
-from .views import *
+from  .views import *
 
 def create_app():
+    #创建APP flask的实例
     app = Flask(__name__)
-    app.config["SECRET_KEY"] = 'guanfang'
+    #注册蓝图
     app.register_blueprint(blueprint=blue)
+    #返回app
     return  app
