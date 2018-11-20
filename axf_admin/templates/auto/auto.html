@@ -1,0 +1,13 @@
+{% extends 'base/base_main.html' %}
+
+{% block js %}
+{{ super() }}
+
+    <script type="text/javascript">
+{#    先清空所有的li的active的class#}
+    $('li').removeClass('active');
+    $('#auto_li').addClass('active')
+    </script>
+
+
+{% endblock %}

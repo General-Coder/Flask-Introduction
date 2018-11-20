@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+</head>
+
+<body>
+<input type="text" placeholder="用户名" id="text">
+<br>
+<input type="password" placeholder="密码" id="pwd">
+<br>
+<input type="password" placeholder="确认密码" id="pwd1">
+<br>
+<input type="submit" placeholder="提交" id="sub">
+</body>
+
+<script type="text/javascript">
+    $(function () {
+        $('#sub').click(login)
+    });
+    function login() {
+        var text = $('#text').val();
+        var pwd = $('#pwd').val();
+        var pwd1 = $('#pwd1').val();
+        if(pwd != pwd1){
+            alert('密码输入不一致')
+        }
+        if(text.length<3) {
+            alert('用户名过短')
+        }
+        $.ajax({
+            url:'/login/',
+            data:{
+                'name':text,
+                'pwd':pwd,
+                'pwd1':pwd1
+            },
+            method:'post',
+            success:function (res) {
+                if(res.code==1){
+                    alert('登陆成功')
+                }
+            }
+
+            }
+        )
+    }
+</script>
+</html>

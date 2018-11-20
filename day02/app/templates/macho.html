@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% macro create_data(data) %}
+    <ul>
+        {% for i in data %}
+            <li>
+                {{ i }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
+    {{ create_data(data) }}
+
+{% from 'public_func.html' import funn1,funn2 %}
+    {{ funn1(data) }}
+    {{ funn2('么么哒') }}
+
+</body>
+</html>

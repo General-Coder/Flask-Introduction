@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" class="ui" href="http://www.semantic-ui.cn/dist/semantic.min.css">
+     <style>
+        #con{
+            background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1542623526483&di=6aa12f11afccb16b8140745abdc645e2&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%3D580%2Fsign%3Dc9fe51424890f60304b09c4f0913b370%2Fc02b5bfc1e178a82fa7da2d3f403738da977e80a.jpg");
+            background-repeat:no-repeat;
+            background-size: 1200px auto;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="con">
+    <div class="ui inverted segment" style="width: 300px;margin: 200px auto">
+    <div class="ui inverted form">
+        <div class="one fields" style="margin-left: 45px">
+            <div class="field">
+                <label>邮箱</label>
+                <input placeholder="邮箱" type="email" id="email">
+            </div>
+
+        </div>
+
+         <div class="one fields" style="margin-left: 45px">
+            <div class="field">
+                <label>密码</label>
+                <input placeholder="密码" type="password" id="pwd">
+            </div>
+
+        </div>
+
+         <div class="one fields" style="margin-left: 45px">
+            <div class="field">
+                <label>确认密码</label>
+                <input placeholder="确认密码" type="password" id="confirm_pwd">
+            </div>
+
+        </div>
+
+        <div class="ui submit button" style="margin-left: 5%" id="regis">
+            注册
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+<script type="text/javascript" src="{{ url_for('static',filename='js/md5.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/jquery.js') }}"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='js/register.js') }}"></script>
+</html>

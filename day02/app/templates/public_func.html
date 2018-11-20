@@ -1,0 +1,15 @@
+{% macro funn1(data) %}
+    <ul>
+    {% for foo in data %}
+        <li>
+            {{ foo }}
+        </li>
+    {% endfor %}
+    </ul>
+{% endmacro %}
+
+{% macro funn2(data) %}
+    <h1 style="color:red;">
+        {{ data }}
+    </h1>
+{% endmacro %}

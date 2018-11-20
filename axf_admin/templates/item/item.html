@@ -1,0 +1,232 @@
+{% extends 'base/base_main.html' %}
+
+{% block css %}
+    {{ super() }}
+    <style type="text/css">
+        .modal-body{
+           font-size: small;
+            text-align: left;
+            font-family:"Droid Serif";
+            color: red;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr style="text-align: center">
+                <td>id</td>
+                <td>图片</td>
+                <td>商品介绍</td>
+                <td>规格</td>
+                <td>商品价格</td>
+                <td>商品库存</td>
+                <td>操作</td>
+            </tr>
+            </thead>
+            <tbody style="text-align: center">
+            {% for i in pagination.items %}
+                <tr class="item">
+                    <td>{{ i.productid }}</td>
+                    <td><img src="{{ i.productimg }}" style="width:30%" height="30%"/></td>
+                    <td>{{ i.productlongname }}</td>
+                    <td>{{ i.specifics }}</td>
+                    <td>{{ i.price }}</td>
+                    <td>{{ i.storenums }}</td>
+                    <td>
+                        <ul style="list-style: none">
+                            <li style="margin: 10px">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModal">
+                                    修改
+                                </button>
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">修改商品信息</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>id:
+                                                {{ i.productid }}</p>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>介绍:{{ i.productlongname }}</p>
+
+                                                <input type="text" id="longname">
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>规格:{{ i.specifics }}</p>
+
+                                                <input type="text" id="fics">
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>价格:{{ i.price }}</p>
+
+                                                <input type="text" id="price">
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>特价:{{ i.marketprice }}</p>
+
+                                                <input type="text" id="mprice">
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>库存:{{ i.storenums }}</p>
+
+                                                <input type="text" id="nums">
+                                            </div>
+                                             <div class="modal-body">
+                                                <p>图片:</p>
+
+                                                <input type="file" id="img">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    取消
+                                                </button>
+                                                <button type="button" class="btn btn-info" c_id="{{ i.id }}">提交</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </li>
+                            <li style="margin: 10px">
+                                <button class="btn btn-danger" c_id= {{ i.productid }}>删除</button>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        {% if show %}
+            <div class="container">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            {% if pagination.has_prev %}
+                                <a href="{{ url_for('blue.item',per_page=pagination.per_page,page=pagination.prev_num) }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('blue.item',per_page=pagination.per_page,page=1) }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% endif %}
+
+
+                        </li>
+
+
+                        <div class=pagination>
+                            {% for page in pagination.iter_pages() %}
+                                {% if page %}
+                                    {% if page != pagination.page %}
+                                        <li>
+                                            <a href="{{ url_for('blue.item',per_page=pagination.per_page,page=page) }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li><strong>{{ page }}</strong></li>
+                                    {% endif %}
+                                {% else %}
+                                    <span class=ellipsis>…</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+
+                        <li>
+                            {% if pagination.has_next %}
+                                <a href="{{ url_for('blue.item',per_page=pagination.per_page,page=pagination.next_num) }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('blue.item',per_page=pagination.per_page,page=pagination.pages) }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        {% else %}
+            <div class="container">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            {% if pagination.has_prev %}
+                                <a href="{{ url_for('blue.item_search',kw=kw,page=pagination.prev_num) }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('blue.item_search',kw=kw,page=1) }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% endif %}
+
+
+                        </li>
+
+
+                        <div class=pagination>
+                            {% for page in pagination.iter_pages() %}
+                                {% if page %}
+                                    {% if page != pagination.page %}
+                                        <li>
+                                            <a href="{{ url_for('blue.item_search',per_page=pagination.per_page,page=page,kw=kw) }}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <strong>{{ page }}</strong>
+                                    {% endif %}
+                                {% else %}
+                                    <span class=ellipsis>…</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+
+                        <li>
+                            {% if pagination.has_next %}
+                                <a href="{{ url_for('blue.item_search',kw=kw,page=pagination.next_num) }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('blue.item_search',kw=kw,page=pagination.pages) }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% endif %}
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+        {% endif %}
+
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ super() }}
+    <script type="text/javascript" src="{{ url_for('static',filename='js/item.js') }}"></script>
+{% endblock %}

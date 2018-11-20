@@ -1,0 +1,64 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block content %}
+
+    <ul style="margin-top: 20px">
+        {% for info in datas.data.dogs %}
+            <li style="color: blue;">
+                {{ info.name }}
+            </li>
+        {% endfor %}
+
+    </ul>
+
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                {% if datas.data.has_prev %}
+                    <a href="{{ url_for('first.get_page_data',page=datas.data.prev_num,per=datas.data.per_page) }}" aria-label="Previous">
+                        <span aria-hidden="true">上一页</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('first.get_page_data',page=1,per=datas.data.per_page) }}" aria-label="Previous">
+                        <span aria-hidden="true">上一页</span>
+                    </a>
+                {% endif %}
+
+            </li>
+
+
+            {% for i in datas.data.page_range %}
+                {% if datas.data.current_page == i %}
+                    <li>
+                        <a href="{{ url_for('first.get_page_data',page=i,per=datas.data.per_page) }}" style="color:red;">
+                            {{ i }}
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ url_for('first.get_page_data',page=i,per=datas.data.per_page) }}">
+                            {{ i }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+
+
+            <li>
+                {% if datas.data.has_next %}
+                    <a href="{{ url_for('first.get_page_data',page=datas.data.next_num,per=datas.data.per_page) }}" aria-label="Next">
+                        <span aria-hidden="true">下一页</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('first.get_page_data',page=datas.data.pages,per=datas.data.per_page) }}" aria-label="Next">
+                        <span aria-hidden="true">下一页</span>
+                    </a>
+                {% endif %}
+
+            </li>
+        </ul>
+    </nav>
+
+{% endblock %}

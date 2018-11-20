@@ -73,8 +73,8 @@ def home():
     uname = request.cookies.get('name')
     session_name = session.get('uname')
     uname = uname if uname else '游客'
-    session_name = session_name if session_name else  '游客1'
-    return render_template('home.html',uname=uname,session_name=session_name)
+    session_name = session_name if session_name else '游客1'
+    return render_template('home.html', uname=uname, session_name=session_name)
 
 
 @blue.route('/login/', methods=['GET', 'POST'])
@@ -86,7 +86,7 @@ def login():
         name = request.form.get('name')
         name1 = request.form.get('name1')
 
-        #设置session
+        # 设置session
         session['uname'] = name1
         # 设置cookie
         response = redirect(url_for('split.home'))
