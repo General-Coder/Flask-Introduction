@@ -3,7 +3,7 @@ from flask_mail import Message
 from flask_restful import Resource, marshal_with
 from app.ext import mail, cache, db
 from app.util import *
-from app.models import User, Goods
+from app.models import User, Goods, Order
 from .args import *
 from .fields import *
 
@@ -62,11 +62,12 @@ class DeleteDataAPI(Resource):
     def delete(self):
         params = delete_args.parse_args()
         c_id = params.get('c_id')
-        goods = Goods.query.filter_by(productid = c_id).first()
+        goods = Goods.query.filter_by(productid=c_id).first()
         goods.is_delete = 1
         db.session.add(goods)
         db.session.commit()
-        return  {'msg':'删除成功'}
+        return {'msg': '删除成功'}
+
 
 class ChangeDataAPI(Resource):
 
@@ -80,17 +81,24 @@ class ChangeDataAPI(Resource):
         mprice = params.get('mprice')
         nums = params.get('nums')
         goods = Goods.query.get(c_id)
-        goods.productlongname = longname if longname else  goods.productlongname
-        goods.specifics = fics if fics else  goods.specifics
-        goods.price = price if price else  goods.price
+        goods.productlongname = longname if longname else goods.productlongname
+        goods.specifics = fics if fics else goods.specifics
+        goods.price = price if price else goods.price
         goods.marketprice = mprice if mprice else goods.marketprice
-        goods.storenums = nums if nums else  goods.storenums
+        goods.storenums = nums if nums else goods.storenums
         db.session.add(goods)
         db.session.commit()
-        return {'msg':'修改成功'}
+        return {'msg': '修改成功', 'data': '/item/'}
 
 
-
-
-
-
+class StatusAPI(Resource):
+    @marshal_with(public_fileds)
+    def patch(self):
+        params = status_args.parse_args()
+        o_id = params.get('o_id')
+        status = params.get('status')
+        order = Order.query.get(o_id)
+        order.status = status
+        db.session.add(order)
+        db.session.commit()
+        return {}

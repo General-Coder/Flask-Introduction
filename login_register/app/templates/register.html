@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+    <form method="post" >
+        {{ form.username.label }}:{{ form.username }}{{ form.username.errors.0 }}
+        <br>
+        {{ form.email.label }}:{{ form.email }}
+        <br>
+        {{ form.password.label }}:{{ form.password }}{{ form.password.errors.0 }}
+        <br>
+        {{ form.confirm.label }}:{{ form.confirm }}{{ form.confirm.errors.0 }}
+        <br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>

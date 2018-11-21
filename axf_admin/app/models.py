@@ -1,3 +1,5 @@
+import datetime
+
 from .ext import db
 from .util import enc_pwd
 
@@ -7,11 +9,13 @@ class User(db.Model):
     name = db.Column(db.String(30), nullable=True)
     email = db.Column(db.String(30), unique=True, index=True)
     pwd = db.Column(db.String(255), nullable=False)
-    is_active = db.Column(db.Boolean,default=False)
-    is_delete = db.Column(db.Boolean,default=False)
+    is_active = db.Column(db.Boolean, default=False)
+    is_delete = db.Column(db.Boolean, default=False)
+    # orders = db.relationship('Order',backref = 'user',lazy = True)
 
     @classmethod
-    def create_user(cls,email, pwd,name=None):
+    def create_user(cls, email, pwd, name=None):
+
         # email能否搜到一个用户,检查email
         users = User.query.filter(User.email == email).first()
         if users:
@@ -26,7 +30,7 @@ class User(db.Model):
         db.session.commit()
         return user
 
-    #重置密码
+    # 重置密码
     def set_pwd(self, pwd):
         if not pwd or len(pwd) == 0:
             raise Exception('密码不能为空')
@@ -35,13 +39,14 @@ class User(db.Model):
         db.session.commit()
         return True
 
-    #检测密码
-    def check_pwd(self,pwd):
+    # 检测密码
+    def check_pwd(self, pwd):
         u_pwd = enc_pwd(pwd)
         if u_pwd == self.pwd:
             return True
         else:
-            return  False
+            return False
+
 
 class Goods(db.Model):
     __tablename__ = 'axf_goods'
@@ -98,5 +103,33 @@ class Goods(db.Model):
         db.Boolean,
         default=False
     )
+    order_items = db.relationship(
+        'OrderItem',
+        backref = 'goods',
+        lazy = True
+    )
 
 
+class Order(db.Model):
+    __tablename__ = 'axf_order'
+    id = db.Column(
+        db.Integer,
+        autoincrement=True,
+        primary_key=True
+    )
+    # user_id = db.Column(db.Integer, db.ForeignKey('axf_myuser.id'))
+    create_time = db.Column(db.DateTime, default=datetime.datetime.now())
+    status = db.Column(db.Integer)
+    order_items = db.relationship('OrderItem',backref='order',lazy=True)
+
+class OrderItem(db.Model):
+    __tablename__ = 'axf_orderitem'
+    id = db.Column(
+        db.Integer,
+        autoincrement=True,
+        primary_key=True
+    )
+    goods_id = db.Column(db.Integer,db.ForeignKey('axf_goods.id'))
+    order_id = db.Column(db.Integer,db.ForeignKey('axf_order.id'))
+    num = db.Column(db.Integer)
+    buy_money = db.Column(db.Numeric(precision=10,scale=2))

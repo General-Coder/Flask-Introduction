@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, g
-
+from app.util import *
 from app.ext import cache
 from app.models import *
 
@@ -8,6 +8,7 @@ blue = Blueprint('blue', __name__)
 
 @blue.route('/')
 def index():
+
     return render_template('base/base_main.html')
 
 
@@ -23,16 +24,37 @@ def item():
 
 @blue.route('/order_manage/')
 def order_manage():
-    return render_template('order/order_index.html')
+    status_map = {
+        1:'待付款',
+        2:'已付款',
+        3:'已发货',
+        4:'已收货',
+        5:'待评价',
+        6:'已评价',
+    }
+    all_orders = Order.query.all()
+    for i in all_orders:
+        i.created_time = i.create_time.strftime('%Y年%m月%d日 %H:%M:%S')
+        sum_money = 0
+        #算钱
+        for j in i.order_items:
+            sum_money += j.num * j.buy_money
+        i.sum_money = sum_money
+        #将订单的状态的数字变成文字
+        i.ch_status = status_map.get(i.status)
+
+    return render_template('order/order_index.html',all_orders=all_orders)
 
 
 @blue.route('/nosale/')
 def no_sale():
-    return render_template('no_sale/no_sale.html')
+    res = get_no_sale()
+    return render_template('no_sale/no_sale.html',res = res)
 
 
 @blue.route('/auto_bh/')
 def auto_bh():
+    get_data()
     return render_template('auto/auto.html')
 
 
@@ -68,4 +90,3 @@ def item_search():
     page = int(request.args.get('page', 1))
     pagination = goods.paginate(page=page, per_page=per_page)
     return render_template('item/item.html', pagination=pagination, kw=kw)
-

@@ -38,7 +38,7 @@ $(function () {
             success:function (res) {
                 if (res.code==1){
                     alert(res.msg);
-                    window.open('/item/')
+                    window.open(res.data,target='_self')
                 }
             }
         })
